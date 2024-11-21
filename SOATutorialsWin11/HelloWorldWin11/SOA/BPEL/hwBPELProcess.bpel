@@ -1,0 +1,58 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Nov 21 08:29:07 PST 2024
+  Author:  PhilipOtenyo
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="hwBPELProcess"
+               targetNamespace="http://xmlns.oracle.com/SOATutorialsWin11/HelloWorldWin11/hwBPELProcess"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOATutorialsWin11/HelloWorldWin11/hwBPELProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/SOATutorialsWin11/HelloWorldWin11/hwInterface"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:ns2="http://xmlns.oracle.com/SOATutorialsWin11/HelloWorldWin11/hwSchema"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <partnerLink name="hwSOAPService" partnerLinkType="ns1:hwSOAPService" myRole="hwPortType"/>
+  </partnerLinks>
+  <variables>
+    <variable name="hwReceiveRequestInputVariable" messageType="ns1:requestMessage"/>
+    <variable name="hwReplyResponseOutputVariable" messageType="ns1:replyMessage"/>
+  </variables>
+  <sequence name="main">
+    <receive name="hwReceive" createInstance="yes" partnerLink="hwSOAPService" portType="ns1:hwPortType"
+             operation="hwSyncOperation" variable="hwReceiveRequestInputVariable"/>
+    <assign name="hwAssign">
+      <copy>
+        <from>concat($hwReceiveRequestInputVariable.hwRequestPayload/ns2:hwInput,",   Welcome again to SOA !")</from>
+        <to>$hwReplyResponseOutputVariable.hwResponsePayload/ns2:hwOutput</to>
+      </copy>
+    </assign>
+    <reply name="hwReply" variable="hwReplyResponseOutputVariable" partnerLink="hwSOAPService"
+           portType="ns1:hwPortType" operation="hwSyncOperation"/>
+  </sequence>
+</process>

@@ -1,0 +1,27 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="hwInterface"
+     targetNamespace="http://xmlns.oracle.com/SOATutorialsWin11/HelloWorldWin11/hwInterface"
+     xmlns:tns="http://xmlns.oracle.com/SOATutorialsWin11/HelloWorldWin11/hwInterface"
+     xmlns:inp1="http://xmlns.oracle.com/SOATutorialsWin11/HelloWorldWin11/hwSchema"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.oracle.com/SOATutorialsWin11/HelloWorldWin11/hwSchema"
+                 schemaLocation="../Schemas/hwSchema.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="requestMessage">
+        <wsdl:part name="hwRequestPayload" element="inp1:hwRequest"/>
+    </wsdl:message>
+    <wsdl:message name="replyMessage">
+        <wsdl:part name="hwResponsePayload" element="inp1:hwResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="hwPortType">
+        <wsdl:operation name="hwSyncOperation">
+            <wsdl:input message="tns:requestMessage"/>
+            <wsdl:output message="tns:replyMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
