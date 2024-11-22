@@ -28,7 +28,7 @@
          xmlns:ess="http://xmlns.oracle.com/scheduler"
          xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
          xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
-         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ui="http://xmlns.oracle.com/soa/designer">
 
   <!-- 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,6 +37,9 @@
      services integrated within this business process                  
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   -->
+  <import namespace="http://xmlns.oracle.com/SOATutorialsWin11/BillingManagementSystem/bmsInterface"
+          location="../WSDLs/bmsInterfaceWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
   <partnerLinks>
     <partnerLink name="bmsSOAPService" partnerLinkType="ns1:bmsSOAPService" partnerRole="bmsCallbackPortType"
                  myRole="bmsRequestPortType"/>
