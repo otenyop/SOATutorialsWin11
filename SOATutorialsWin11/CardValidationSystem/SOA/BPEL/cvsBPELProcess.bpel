@@ -1,0 +1,124 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Nov 22 11:30:32 EAT 2024
+  Author:  PhilipOtenyo
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="cvsBPELProcess"
+               targetNamespace="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsBPELProcess"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsBPELProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ns2="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsSchema"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface"
+          location="../WSDLs/cvsInterfaceWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="cvsSOAPService" partnerLinkType="ns1:cvsSOAPService" myRole="cvsSyncPortType"/>
+  </partnerLinks>
+  <variables>
+    <variable name="cvsReceiveInputVariable" messageType="ns1:requestMessage"/>
+    <variable name="cvsReplyOutputVariable" messageType="ns1:replyMessage"/>
+  </variables>
+  <sequence name="main">
+    <receive name="cvsReceive" createInstance="yes" partnerLink="cvsSOAPService" portType="ns1:cvsSyncPortType"
+             operation="cvsOperation" variable="cvsReceiveInputVariable"/>
+    <if name="If1">
+      <documentation>
+        <![CDATA[Is Card >= 4000]]>
+      </documentation>
+      <condition>$cvsReceiveInputVariable.cvsRequestPayload/ns2:cardNumber &gt;= 4000</condition>
+      <sequence name="Sequence1">
+        <if name="If2">
+          <documentation>
+            <![CDATA[Is VISA]]>
+          </documentation>
+          <condition>$cvsReceiveInputVariable.cvsRequestPayload/ns2:vendorName = 'VISA'</condition>
+          <assign name="cvsValidStatusAssign">
+            <copy>
+              <from>"VALID"</from>
+              <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:cardStatus</to>
+            </copy>
+            <copy>
+              <from>"Card Number : Pass, Vendor : VISA Pass"</from>
+              <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:detailCardStatus</to>
+            </copy>
+          </assign>
+          <elseif>
+            <documentation>
+              <![CDATA[Is MASTERCARD]]>
+            </documentation>
+            <condition>$cvsReceiveInputVariable.cvsRequestPayload/ns2:vendorName = 'MASTERCARD'</condition>
+            <assign name="cvsValidStatusAssign"
+                                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+              <copy>
+                <from>"VALID"</from>
+                <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:cardStatus</to>
+              </copy>
+              <copy>
+                <from>"Card Number : Pass, Vendor : MASTERCARD Pass"</from>
+                <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:detailCardStatus</to>
+              </copy>
+            </assign></elseif>
+          <else>
+            <documentation>
+              <![CDATA[INVALID VENDOR]]>
+            </documentation><assign name="cvsInvalidCardStatusAssign"
+                                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+              <copy>
+                <from>"INVALID"</from>
+                <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:cardStatus</to>
+              </copy>
+              <copy>
+                <from>"Card Number : Pass, Vendor : FAIL"</from>
+                <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:detailCardStatus</to>
+              </copy>
+            </assign></else>
+        </if>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[Card < 4000]]>
+        </documentation>
+        <assign name="cvsInvalidCardStatusAssign">
+          <copy>
+            <from>"INVALID"</from>
+            <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:cardStatus</to>
+          </copy>
+          <copy>
+            <from>"Card Number : FAIL, Vendor : FAIL"</from>
+            <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:detailCardStatus</to>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <reply name="cvsReply" variable="cvsReplyOutputVariable" partnerLink="cvsSOAPService"
+           portType="ns1:cvsSyncPortType" operation="cvsOperation"/>
+  </sequence>
+</process>

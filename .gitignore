@@ -1,6 +1,20 @@
+<<<<<<< HEAD
 
 SOATutorialsWin11/.data/
 
 SOATutorialsWin11/CardValidationSystem/deploy/
 
 SOATutorialsWin11/CardValidationSystem/SOA/SCA-INF/
+=======
+.data/
+
+deploy/
+
+CardValidationSystem/deploy/
+
+SOATutorialsWin11/CardValidationSystem/deploy/
+
+CardValidationSystem/SOA/SCA-INF/
+
+SOATutorialsWin11/CardValidationSystem/SOA/SCA-INF/
+>>>>>>> feature/cvs
