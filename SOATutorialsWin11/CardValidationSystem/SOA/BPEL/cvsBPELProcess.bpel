@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Nov 22 11:30:32 EAT 2024
+  Author:  PhilipOtenyo
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="cvsBPELProcess"
+               targetNamespace="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsBPELProcess"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsBPELProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <partnerLink name="cvsSOAPService" partnerLinkType="ns1:cvsSOAPService" myRole="cvsSyncPortType"/>
+  </partnerLinks>
+  <variables>
+    <variable name="cvsReceiveInputVariable" messageType="ns1:requestMessage"/>
+    <variable name="cvsReplyOutputVariable" messageType="ns1:replyMessage"/>
+  </variables>
+  <sequence name="main">
+    <receive name="cvsReceive" createInstance="yes" partnerLink="cvsSOAPService" portType="ns1:cvsSyncPortType"
+             operation="cvsOperation" variable="cvsReceiveInputVariable"/>
+    <reply name="cvsReply" variable="cvsReplyOutputVariable" partnerLink="cvsSOAPService"
+           portType="ns1:cvsSyncPortType" operation="cvsOperation"/>
+  </sequence>
+</process>

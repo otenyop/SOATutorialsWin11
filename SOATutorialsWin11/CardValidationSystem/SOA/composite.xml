@@ -11,6 +11,29 @@
            xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy"
            xmlns:ui="http://xmlns.oracle.com/soa/designer/"
            xmlns:sca-ext="http://xmlns.oracle.com/sca/1.0-ext">
+  <import namespace="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface"
+          location="WSDLs/cvsInterface.wsdl" importType="wsdl"/>
+  <import namespace="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface"
+          location="WSDLs/cvsInterfaceWrapper.wsdl" importType="wsdl"/>
+  <service name="cvsSOAPService" ui:wsdlLocation="WSDLs/cvsInterface.wsdl">
+    <interface.wsdl interface="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface#wsdl.interface(cvsSyncPortType)"/>
+    <binding.ws port="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface#wsdl.endpoint(cvsSOAPService/cvsSyncPort)">
+      <property name="weblogic.wsee.wsat.transaction.flowOption" type="xs:string" many="false">NEVER</property>
+    </binding.ws>
+  </service>
   <property name="productVersion" type="xs:string" many="false">12.1.3.0.0</property>
   <property name="compositeID" type="xs:string" many="false">8feee551-cd95-4857-91fc-fbf0acd0dc2c</property>
+  <component name="cvsBPELProcess" version="2.0">
+    <implementation.bpel src="BPEL/cvsBPELProcess.bpel"/>
+    <componentType>
+      <service name="cvsSOAPService" ui:wsdlLocation="WSDLs/cvsInterfaceWrapper.wsdl">
+        <interface.wsdl interface="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface#wsdl.interface(cvsSyncPortType)"/>
+      </service>
+    </componentType>
+    <property name="bpel.config.transaction" type="xs:string" many="false">required</property>
+  </component>
+  <wire>
+    <source.uri>cvsSOAPService</source.uri>
+    <target.uri>cvsBPELProcess/cvsSOAPService</target.uri>
+  </wire>
 </composite>
