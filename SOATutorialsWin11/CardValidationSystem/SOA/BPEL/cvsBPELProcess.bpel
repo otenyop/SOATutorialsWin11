@@ -54,12 +54,54 @@
         <![CDATA[Is Card >= 4000]]>
       </documentation>
       <condition>$cvsReceiveInputVariable.cvsRequestPayload/ns2:cardNumber &gt;= 4000</condition>
-      <assign name="cvsValidStatusAssign">
-        <copy>
-          <from>"VALID"</from>
-          <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:cardStatus</to>
-        </copy>
-      </assign>
+      <sequence name="Sequence1">
+        <if name="If2">
+          <documentation>
+            <![CDATA[Is VISA]]>
+          </documentation>
+          <condition>$cvsReceiveInputVariable.cvsRequestPayload/ns2:vendorName = 'VISA'</condition>
+          <assign name="cvsValidStatusAssign">
+            <copy>
+              <from>"VALID"</from>
+              <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:cardStatus</to>
+            </copy>
+            <copy>
+              <from>"Card Number : Pass, Vendor : VISA Pass"</from>
+              <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:detailCardStatus</to>
+            </copy>
+          </assign>
+          <elseif>
+            <documentation>
+              <![CDATA[Is MASTERCARD]]>
+            </documentation>
+            <condition>$cvsReceiveInputVariable.cvsRequestPayload/ns2:vendorName = 'MASTERCARD'</condition>
+            <assign name="cvsValidStatusAssign"
+                                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+              <copy>
+                <from>"VALID"</from>
+                <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:cardStatus</to>
+              </copy>
+              <copy>
+                <from>"Card Number : Pass, Vendor : MASTERCARD Pass"</from>
+                <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:detailCardStatus</to>
+              </copy>
+            </assign></elseif>
+          <else>
+            <documentation>
+              <![CDATA[INVALID VENDOR]]>
+            </documentation><assign name="cvsInvalidCardStatusAssign"
+                                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+              <copy>
+                <from>"INVALID"</from>
+                <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:cardStatus</to>
+              </copy>
+              <copy>
+                <from>"Card Number : Pass, Vendor : FAIL"</from>
+                <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:detailCardStatus</to>
+              </copy>
+            </assign></else>
+        </if>
+      </sequence>
       <else>
         <documentation>
           <![CDATA[Card < 4000]]>
@@ -68,6 +110,10 @@
           <copy>
             <from>"INVALID"</from>
             <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:cardStatus</to>
+          </copy>
+          <copy>
+            <from>"Card Number : FAIL, Vendor : FAIL"</from>
+            <to>$cvsReplyOutputVariable.cvsResponsePayload/ns2:detailCardStatus</to>
           </copy>
         </assign>
       </else>
