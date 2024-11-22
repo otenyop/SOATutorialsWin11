@@ -1,0 +1,31 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="opsInterface"
+     targetNamespace="http://xmlns.oracle.com/SOATutorialsWin11/OrderProcessingSystem/opsInterface"
+     xmlns:tns="http://xmlns.oracle.com/SOATutorialsWin11/OrderProcessingSystem/opsInterface"
+     xmlns:inp1="http://xmlns.oracle.com/SOATutorialsWin11/OrderProcessingSystem/opsSchema"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.oracle.com/SOATutorialsWin11/OrderProcessingSystem/opsSchema"
+                 schemaLocation="../Schemas/opsSchema.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="requestMessage">
+        <wsdl:part name="opsRequestPayload" element="inp1:orderRequest"/>
+    </wsdl:message>
+    <wsdl:message name="callbackMessage">
+        <wsdl:part name="opsCallbackPayload" element="inp1:orderResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="opsRequestPortType">
+        <wsdl:operation name="opsRequestOperation">
+            <wsdl:input message="tns:requestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="opsCallbackPortType">
+        <wsdl:operation name="opsCallbackOperation">
+            <wsdl:input message="tns:callbackMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
