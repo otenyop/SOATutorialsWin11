@@ -12,10 +12,10 @@
            xmlns:ui="http://xmlns.oracle.com/soa/designer/"
            xmlns:sca-ext="http://xmlns.oracle.com/sca/1.0-ext">
   <import namespace="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface"
-          location="WSDLs/cvsInterface.wsdl" importType="wsdl"/>
+          location="oramds:/apps/CardValidationSystem/WSDLs/cvsInterface.wsdl" importType="wsdl"/>
   <import namespace="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface"
           location="WSDLs/cvsInterfaceWrapper.wsdl" importType="wsdl"/>
-  <service name="cvsSOAPService" ui:wsdlLocation="WSDLs/cvsInterface.wsdl">
+  <service name="cvsSOAPService" ui:wsdlLocation="oramds:/apps/CardValidationSystem/WSDLs/cvsInterface.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface#wsdl.interface(cvsSyncPortType)"/>
     <binding.ws port="http://xmlns.oracle.com/SOATutorialsWin11/CardValidationSystem/cvsInterface#wsdl.endpoint(cvsSOAPService/cvsSyncPort)">
       <property name="weblogic.wsee.wsat.transaction.flowOption" type="xs:string" many="false">NEVER</property>
