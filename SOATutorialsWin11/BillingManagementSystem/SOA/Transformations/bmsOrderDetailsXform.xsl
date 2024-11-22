@@ -17,14 +17,14 @@
     <!--SPECIFICATION OF MAP SOURCES AND TARGETS, DO NOT MODIFY.-->
     <oracle-xsl-mapper:mapSources>
       <oracle-xsl-mapper:source type="WSDL">
-        <oracle-xsl-mapper:schema location="../WSDLs/bmsInterface.wsdl"/>
+        <oracle-xsl-mapper:schema location="oramds:/apps/BillingManagementSystem/WSDLs/bmsInterface.wsdl"/>
         <oracle-xsl-mapper:rootElement name="bmsRequestSchema"
                                        namespace="http://xmlns.oracle.com/SOATutorialsWin11/BillingManagementSystem/bmsSchema"/>
       </oracle-xsl-mapper:source>
     </oracle-xsl-mapper:mapSources>
     <oracle-xsl-mapper:mapTargets>
       <oracle-xsl-mapper:target type="WSDL">
-        <oracle-xsl-mapper:schema location="../WSDLs/bmsInterface.wsdl"/>
+        <oracle-xsl-mapper:schema location="oramds:/apps/BillingManagementSystem/WSDLs/bmsInterface.wsdl"/>
         <oracle-xsl-mapper:rootElement name="bmsCallbackSchema"
                                        namespace="http://xmlns.oracle.com/SOATutorialsWin11/BillingManagementSystem/bmsSchema"/>
       </oracle-xsl-mapper:target>

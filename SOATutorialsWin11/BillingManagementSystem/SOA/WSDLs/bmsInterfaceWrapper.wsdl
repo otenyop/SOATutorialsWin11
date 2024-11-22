@@ -13,5 +13,5 @@
         <plnk:role name="bmsCallbackPortType" portType="tns:bmsCallbackPortType"/>
     </plnk:partnerLinkType>
     <wsdl:import namespace="http://xmlns.oracle.com/SOATutorialsWin11/BillingManagementSystem/bmsInterface"
-         location="bmsInterface.wsdl"/>
+         location="oramds:/apps/BillingManagementSystem/WSDLs/bmsInterface.wsdl"/>
 </wsdl:definitions>
