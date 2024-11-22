@@ -8,5 +8,6 @@
     <modules>
         <!-- Add project modules -->
     	<module>HelloWorldWin11</module>
+    	<module>CardValidationSystem</module>
     </modules>
 </project>
