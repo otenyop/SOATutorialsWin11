@@ -101,88 +101,40 @@
    </hash>
    <hash n="oracle.jdeveloper.deploy.dt.DeploymentProfiles">
       <hash n="profileDefinitions">
-         <hash n="DesignTimeMDS">
+         <hash n="cvsMDSProjectLevelDeploymentProfile">
             <hash n="archiveOptions">
-               <value n="hasManifest" v="false"/>
+               <value n="hasManifest" v="true"/>
             </hash>
             <hash n="fileGroups">
                <list n="groups">
                   <hash>
                      <list n="contributors">
                         <hash>
-                           <url n="location" path="SOA/"/>
+                           <url n="location" path="SOA/apps/"/>
                            <value n="type" v="1"/>
                         </hash>
                      </list>
-                     <value n="displayName" v="SOA Files"/>
+                     <value n="displayName" v="Project Output"/>
                      <hash n="filters">
                         <list n="rules">
-                           <hash>
-                              <value n="pattern" v="**/XSLNonDeployedFiles"/>
-                              <value n="type" v="1"/>
-                           </hash>
-                           <hash>
-                              <value n="pattern" v="SCA-INF/bpel"/>
-                              <value n="type" v="1"/>
-                           </hash>
-                           <hash>
-                              <value n="pattern" v=".migrated/jaxb_classes"/>
-                              <value n="type" v="1"/>
-                           </hash>
-                           <hash>
-                              <value n="pattern" v="**/.rulesdesigner/jaxb_classes"/>
-                              <value n="type" v="1"/>
-                           </hash>
-                           <hash>
-                              <value n="pattern" v="merged"/>
-                              <value n="type" v="1"/>
-                           </hash>
-                           <hash>
-                              <value n="pattern" v="**/mdssys"/>
-                              <value n="type" v="1"/>
-                           </hash>
-                           <hash>
-                              <value n="pattern" v="**/.designer"/>
-                              <value n="type" v="1"/>
-                           </hash>
-                           <hash>
-                              <value n="pattern" v="SCA-INF/file-layer-registry.xml"/>
-                              <value n="type" v="1"/>
-                           </hash>
-                           <hash>
-                              <value n="pattern" v="SCA-INF/classes/scac.log"/>
-                              <value n="type" v="1"/>
-                           </hash>
-                           <hash>
-                              <value n="pattern" v="SCA-INF/classes/scac_out.xml"/>
-                              <value n="type" v="1"/>
-                           </hash>
-                           <hash>
-                              <value n="pattern" v="*.jpr"/>
-                              <value n="type" v="1"/>
-                           </hash>
-                           <hash>
-                              <value n="pattern" v="deploy/"/>
-                              <value n="type" v="1"/>
-                           </hash>
                            <hash>
                               <value n="pattern" v="**"/>
                               <value n="type" v="0"/>
                            </hash>
                         </list>
                      </hash>
-                     <value n="internalName" v="sar-files"/>
+                     <value n="internalName" v="project-output"/>
                      <value n="type" v="1"/>
                   </hash>
                </list>
             </hash>
-            <url n="jarURL" path="deploy/sca_DesignTimeMDS${composite.revision_id}.jar"/>
-            <value n="profileClass" v="oracle.tip.tools.ide.fabric.deploy.sar.SarProfile"/>
-            <value n="profileName" v="DesignTimeMDS"/>
+            <url n="jarURL" path="deploy/cvsMDSProjectLevelDeploymentProfile.jar"/>
+            <value n="profileClass" v="oracle.jdeveloper.deploy.jar.ArchiveProfile"/>
+            <value n="profileName" v="cvsMDSProjectLevelDeploymentProfile"/>
          </hash>
       </hash>
       <list n="profileList">
-         <string v="DesignTimeMDS"/>
+         <string v="cvsMDSProjectLevelDeploymentProfile"/>
       </list>
    </hash>
    <hash n="oracle.jdeveloper.maven.compiler.MavenConfiguration">
@@ -194,6 +146,9 @@
    </hash>
    <hash n="oracle.jdeveloper.model.PathsConfiguration">
       <hash n="javaContentSet">
+         <list n="pattern-filters">
+            <string v="+**"/>
+         </list>
          <list n="url-path">
             <url path="SOA/SCA-INF/src/"/>
          </list>
