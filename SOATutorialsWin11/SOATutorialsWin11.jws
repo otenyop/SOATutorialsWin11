@@ -25,6 +25,7 @@
    <list n="listOfChildren">
       <hash><url n="URL" path="BillingManagementSystem/BillingManagementSystem.jpr"/></hash>
       <hash><url n="URL" path="CardValidationSystem/CardValidationSystem.jpr"/></hash>
+      <hash><url n="URL" path="DesignTimeMDS/DesignTimeMDS.jpr"/></hash>
       <hash><url n="URL" path="HelloWorldWin11/HelloWorldWin11.jpr"/></hash>
    </list>
 </jws:workspace>
