@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://xmlns.oracle.com/SOATutorialsWin11/OrderProcessingSystem/opsSchema"
+            targetNamespace="http://xmlns.oracle.com/SOATutorialsWin11/OrderProcessingSystem/opsSchema"
+            elementFormDefault="qualified">
+  <xsd:element name="orderRequest">
+    <xsd:annotation>
+      <xsd:documentation>A sample element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="orderID" type="xsd:integer"/>
+        <xsd:element name="customerInfo">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="custID" type="xsd:integer"/>
+              <xsd:element name="custName" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="itemInfo" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="itemName" type="xsd:string"/>
+              <xsd:element name="itemCost" type="xsd:integer"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="orderResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="orderID" type="xsd:integer"/>
+        <xsd:element name="cardValidationStatus" type="xsd:string"/>
+        <xsd:element name="orderTotal" type="xsd:integer"/>
+        <xsd:element name="orderStatus" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
