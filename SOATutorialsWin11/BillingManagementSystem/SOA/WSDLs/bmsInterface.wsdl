@@ -1,0 +1,31 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="bmsInterface"
+     targetNamespace="http://xmlns.oracle.com/SOATutorialsWin11/BillingManagementSystem/bmsInterface"
+     xmlns:tns="http://xmlns.oracle.com/SOATutorialsWin11/BillingManagementSystem/bmsInterface"
+     xmlns:inp1="http://xmlns.oracle.com/SOATutorialsWin11/BillingManagementSystem/bmsSchema"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.oracle.com/SOATutorialsWin11/BillingManagementSystem/bmsSchema"
+                 schemaLocation="../Schemas/bmsSchema.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="requestMessage">
+        <wsdl:part name="bmsRequestPayload" element="inp1:bmsRequestSchema"/>
+    </wsdl:message>
+    <wsdl:message name="callbackMessage">
+        <wsdl:part name="bmsCallbackPayload" element="inp1:bmsCallbackSchema"/>
+    </wsdl:message>
+    <wsdl:portType name="bmsRequestPortType">
+        <wsdl:operation name="bmsRequestOperation">
+            <wsdl:input message="tns:requestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="bmsCallbackPortType">
+        <wsdl:operation name="bmsCallbackOperation">
+            <wsdl:input message="tns:callbackMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
