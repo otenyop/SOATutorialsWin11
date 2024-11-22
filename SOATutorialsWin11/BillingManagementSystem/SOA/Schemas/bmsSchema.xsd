@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://xmlns.oracle.com/SOATutorialsWin11/BillingManagementSystem/bmsSchema"
+            targetNamespace="http://xmlns.oracle.com/SOATutorialsWin11/BillingManagementSystem/bmsSchema"
+            elementFormDefault="qualified">
+  <xsd:element name="bmsRequestSchema">
+    <xsd:annotation>
+      <xsd:documentation>A sample element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="orderID" type="xsd:integer"/>
+        <xsd:element name="itemDetails" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="itemName" type="xsd:string"/>
+              <xsd:element name="itemCost" type="xsd:integer"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="bmsCallbackSchema">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="orderID" type="xsd:integer"/>
+        <xsd:element name="itemDetails" maxOccurs="unbounded" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="itemName" type="xsd:string"/>
+              <xsd:element name="itemCost" type="xsd:integer"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="orderTotalCost" type="xsd:integer"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
