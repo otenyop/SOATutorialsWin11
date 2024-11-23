@@ -65,6 +65,7 @@
         <variable name="getConcProgDetailsInvokeOutputVariable" messageType="ns4:SynchRead_msg"/>
         <variable name="InsertSalesOrderInvokeInputVariable" messageType="ns1:OeHeadersIfaceAllCollection_msg"/>
         <variable name="ImportSalesOrderCPInvokeInputVariable" messageType="ns2:args_in_msg"/>
+        <variable name="ImportSalesOrderCPInvokeOutputVariable" messageType="ns2:args_out_msg"/>
     </variables>
 
     <!-- 
@@ -102,7 +103,8 @@
         </assign>
         <invoke name="ImportSalesOrderCPInvoke" partnerLink="ImportSalesOrderCP"
                 portType="ns2:ImportSalesOrderCP_ptt" operation="ImportSalesOrderCP"
-                inputVariable="ImportSalesOrderCPInvokeInputVariable" bpelx:invokeAsDetail="no">
+                inputVariable="ImportSalesOrderCPInvokeInputVariable"
+                outputVariable="ImportSalesOrderCPInvokeOutputVariable" bpelx:invokeAsDetail="no">
             <bpelx:toProperties>
                 <bpelx:toProperty name="jca.apps.Username">'OPERATIONS'</bpelx:toProperty>
                 <bpelx:toProperty name="jca.apps.Responsibility">'Order Management Super User, Vision Operations (USA)'</bpelx:toProperty>
