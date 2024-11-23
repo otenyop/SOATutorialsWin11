@@ -1,0 +1,15 @@
+<adapter-config name="ImportSalesOrderCP" adapter="apps" wsdlLocation="../WSDLs/ImportSalesOrderCP.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="ebs_vis_12.1.1_App_Res_Conn" location="eis/apps/ebs_vis_12.1.1_App_Res_Conn" UIConcurrentPgmName="OEOIMP" UIOracleAppType="DBOBJECT"/>
+  <endpoint-interaction portType="ImportSalesOrderCP_ptt" operation="ImportSalesOrderCP">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XX_BPEL_FND_REQUEST_WRAPPER"/>
+      <property name="ProcedureName" value="SUBMIT_REQUEST"/>
+      <property name="IRepInternalName" value="CONCURRENTPROGRAM:OEOIMP:Process"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

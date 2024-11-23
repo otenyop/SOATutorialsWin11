@@ -1,0 +1,73 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Sat Nov 23 11:41:08 EAT 2024
+  Author:  PhilipOtenyo
+  Type: BPEL 2.0 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="EBS_SalesOrder_ConcProg_BPELProcess"
+         targetNamespace="http://xmlns.oracle.com/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/EBS_SalesOrder_ConcProg_BPELProcess"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/EBS_SalesOrder_ConcProg_BPELProcess"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/apps/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/InsertSalesOrder"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/apps/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/ImportSalesOrderCP">
+
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/EBS_SalesOrder_ConcProg_BPELProcess" location="../WSDLs/EBS_SalesOrder_ConcProg_BPELProcess.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="ebs_salesorder_concprog_bpelprocess_client" partnerLinkType="client:EBS_SalesOrder_ConcProg_BPELProcess" myRole="EBS_SalesOrder_ConcProg_BPELProcessProvider" partnerRole="EBS_SalesOrder_ConcProg_BPELProcessRequester"/>
+        <partnerLink name="InsertSalesOrder" partnerLinkType="ns1:InsertSalesOrder_plt"
+                     partnerRole="InsertSalesOrder_role"/>
+        <partnerLink name="ImportSalesOrderCP" partnerLinkType="ns2:ImportSalesOrderCP_plt"
+                     partnerRole="ImportSalesOrderCP_role"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:EBS_SalesOrder_ConcProg_BPELProcessRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:EBS_SalesOrder_ConcProg_BPELProcessResponseMessage"/>
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in EBS_SalesOrder_ConcProg_BPELProcess.wsdl) -->
+        <receive name="receiveInput" partnerLink="ebs_salesorder_concprog_bpelprocess_client" portType="client:EBS_SalesOrder_ConcProg_BPELProcess" operation="process" variable="inputVariable" createInstance="yes"/>
+
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <invoke name="callbackClient" partnerLink="ebs_salesorder_concprog_bpelprocess_client" portType="client:EBS_SalesOrder_ConcProg_BPELProcessCallback" operation="processResponse" inputVariable="outputVariable"/>
+    </sequence>
+</process>

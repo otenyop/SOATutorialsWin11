@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="InsertSalesOrder"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/apps/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/InsertSalesOrder"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/apps/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/InsertSalesOrder"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/InsertSalesOrder"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="InsertSalesOrder_plt" >
+    <plt:role name="InsertSalesOrder_role" >
+      <plt:portType name="tns:InsertSalesOrder_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/InsertSalesOrder" schemaLocation="../Schemas/InsertSalesOrder_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="OeHeadersIfaceAllCollection_msg">
+        <wsdl:part name="OeHeadersIfaceAllCollection" element="top:OeHeadersIfaceAllCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="InsertSalesOrder_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:OeHeadersIfaceAllCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

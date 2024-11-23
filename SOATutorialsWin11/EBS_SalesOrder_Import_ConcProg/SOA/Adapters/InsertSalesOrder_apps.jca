@@ -1,0 +1,14 @@
+<adapter-config name="InsertSalesOrder" adapter="apps" wsdlLocation="../WSDLs/InsertSalesOrder.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="ebs_vis_12.1.1_App_Res_Conn" location="eis/apps/ebs_vis_12.1.1_App_Res_Conn" UIOracleAppType="DBOBJECT" UIOracleAppObjList="ONT.OE_HEADERS_IFACE_ALL,ONT.OE_LINES_IFACE_ALL"/>
+  <endpoint-interaction portType="InsertSalesOrder_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsTableWriteInteractionSpec">
+      <property name="DescriptorName" value="InsertSalesOrder.OeHeadersIfaceAll"/>
+      <property name="DmlType" value="insert"/>
+      <property name="MappingsMetaDataURL" value="InsertSalesOrder-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>
