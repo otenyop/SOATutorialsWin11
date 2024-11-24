@@ -17,10 +17,6 @@
           location="WSDLs/InsertSalesOrder.wsdl" importType="wsdl"/>
   <import namespace="http://xmlns.oracle.com/pcbpel/adapter/apps/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/ImportSalesOrderCP"
           location="WSDLs/ImportSalesOrderCP.wsdl" importType="wsdl"/>
-  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/file/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/getSalesOrderDetails"
-          location="WSDLs/getSalesOrderDetails.wsdl" importType="wsdl"/>
-  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/file/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/getConcProgDetails"
-          location="WSDLs/getConcProgDetails.wsdl" importType="wsdl"/>
   <service name="ebs_salesorder_concprog_bpelprocess_client_ep"
            ui:wsdlLocation="WSDLs/EBS_SalesOrder_ConcProg_BPELProcess.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/EBS_SalesOrder_ConcProg_BPELProcess#wsdl.interface(EBS_SalesOrder_ConcProg_BPELProcess)"
@@ -46,12 +42,6 @@
       <reference name="ImportSalesOrderCP" ui:wsdlLocation="WSDLs/ImportSalesOrderCP.wsdl">
         <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/apps/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/ImportSalesOrderCP#wsdl.interface(ImportSalesOrderCP_ptt)"/>
       </reference>
-      <reference name="getSalesOrderDetails" ui:wsdlLocation="WSDLs/getSalesOrderDetails.wsdl">
-        <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/file/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/getSalesOrderDetails#wsdl.interface(SynchRead_ptt)"/>
-      </reference>
-      <reference name="getConcProgDetails" ui:wsdlLocation="WSDLs/getConcProgDetails.wsdl">
-        <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/file/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/getConcProgDetails#wsdl.interface(SynchRead_ptt)"/>
-      </reference>
     </componentType>
     <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string" many="false">async.persist</property>
   </component>
@@ -71,16 +61,6 @@
     <property name="jca.retry.backoff" type="xs:int" many="false" override="may">2</property>
     <property name="jca.retry.maxInterval" type="xs:string" many="false" override="may">120</property>
   </reference>
-  <reference name="getSalesOrderDetails" ui:wsdlLocation="WSDLs/getSalesOrderDetails.wsdl">
-    <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/file/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/getSalesOrderDetails#wsdl.interface(SynchRead_ptt)"/>
-    <binding.jca config="Adapters/getSalesOrderDetails_file.jca"/>
-    <property name="inputDir" type="xs:string" many="false" override="may">Z:\SOA\myWork\inputDir</property>
-  </reference>
-  <reference name="getConcProgDetails" ui:wsdlLocation="WSDLs/getConcProgDetails.wsdl">
-    <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/file/SOATutorialsWin11/EBS_SalesOrder_Import_ConcProg/getConcProgDetails#wsdl.interface(SynchRead_ptt)"/>
-    <binding.jca config="Adapters/getConcProgDetails_file.jca"/>
-    <property name="inputDir" type="xs:string" many="false" override="may">Z:\SOA\myWork\inputDir</property>
-  </reference>
   <wire>
     <source.uri>ebs_salesorder_concprog_bpelprocess_client_ep</source.uri>
     <target.uri>EBS_SalesOrder_ConcProg_BPELProcess/ebs_salesorder_concprog_bpelprocess_client</target.uri>
@@ -92,13 +72,5 @@
   <wire>
     <source.uri>EBS_SalesOrder_ConcProg_BPELProcess/ImportSalesOrderCP</source.uri>
     <target.uri>ImportSalesOrderCP</target.uri>
-  </wire>
-  <wire>
-    <source.uri>EBS_SalesOrder_ConcProg_BPELProcess/getSalesOrderDetails</source.uri>
-    <target.uri>getSalesOrderDetails</target.uri>
-  </wire>
-  <wire>
-    <source.uri>EBS_SalesOrder_ConcProg_BPELProcess/getConcProgDetails</source.uri>
-    <target.uri>getConcProgDetails</target.uri>
   </wire>
 </composite>

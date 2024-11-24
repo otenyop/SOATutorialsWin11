@@ -43,8 +43,6 @@
                      partnerRole="InsertSalesOrder_role"/>
         <partnerLink name="ImportSalesOrderCP" partnerLinkType="ns2:ImportSalesOrderCP_plt"
                      partnerRole="ImportSalesOrderCP_role"/>
-        <partnerLink name="getSalesOrderDetails" partnerLinkType="ns3:SynchRead_plt" partnerRole="SynchRead_role"/>
-        <partnerLink name="getConcProgDetails" partnerLinkType="ns4:SynchRead_plt" partnerRole="SynchRead_role"/>
     </partnerLinks>
 
     <!-- 
@@ -59,10 +57,6 @@
 
         <!-- Reference to the message that will be sent back to the requester during callback -->
         <variable name="outputVariable" messageType="client:EBS_SalesOrder_ConcProg_BPELProcessResponseMessage"/>
-        <variable name="getSalesOrderDetailsInvokeInputVariable" messageType="ns3:Empty_msg"/>
-        <variable name="getSalesOrderDetailsInvokeOutputVariable" messageType="ns3:SynchRead_msg"/>
-        <variable name="getConcProgDetailsInvokeInputVariable" messageType="ns4:Empty_msg"/>
-        <variable name="getConcProgDetailsInvokeOutputVariable" messageType="ns4:SynchRead_msg"/>
         <variable name="InsertSalesOrderInvokeInputVariable" messageType="ns1:OeHeadersIfaceAllCollection_msg"/>
         <variable name="ImportSalesOrderCPInvokeInputVariable" messageType="ns2:args_in_msg"/>
         <variable name="ImportSalesOrderCPInvokeOutputVariable" messageType="ns2:args_out_msg"/>
@@ -78,29 +72,9 @@
     <sequence name="main">
         <!-- Receive input from requestor. (Note: This maps to operation defined in EBS_SalesOrder_ConcProg_BPELProcess.wsdl) -->
         <receive name="receiveInput" partnerLink="ebs_salesorder_concprog_bpelprocess_client" portType="client:EBS_SalesOrder_ConcProg_BPELProcess" operation="process" variable="inputVariable" createInstance="yes"/>
-        <invoke name="getSalesOrderDetailsInvoke" partnerLink="getSalesOrderDetails"
-                portType="ns3:SynchRead_ptt" operation="SynchRead"
-                inputVariable="getSalesOrderDetailsInvokeInputVariable"
-                outputVariable="getSalesOrderDetailsInvokeOutputVariable" bpelx:invokeAsDetail="no"/>
-        <assign name="SetSalesOrderDetailsAssign">
-            <copy>
-                <from>$getSalesOrderDetailsInvokeOutputVariable.body</from>
-                <to>$InsertSalesOrderInvokeInputVariable.OeHeadersIfaceAllCollection</to>
-            </copy>
-        </assign>
-        <invoke name="getConcProgDetailsInvoke" partnerLink="getConcProgDetails"
-                portType="ns4:SynchRead_ptt" operation="SynchRead"
-                inputVariable="getConcProgDetailsInvokeInputVariable"
-                outputVariable="getConcProgDetailsInvokeOutputVariable" bpelx:invokeAsDetail="no"/>
         <invoke name="InsertSalesOrderInvoke" partnerLink="InsertSalesOrder"
                 portType="ns1:InsertSalesOrder_ptt" operation="insert"
                 inputVariable="InsertSalesOrderInvokeInputVariable" bpelx:invokeAsDetail="no"/>
-        <assign name="SetConcProgDetailsAssign">
-            <copy>
-                <from>$getConcProgDetailsInvokeOutputVariable.body</from>
-                <to>$ImportSalesOrderCPInvokeInputVariable.InputParameters</to>
-            </copy>
-        </assign>
         <invoke name="ImportSalesOrderCPInvoke" partnerLink="ImportSalesOrderCP"
                 portType="ns2:ImportSalesOrderCP_ptt" operation="ImportSalesOrderCP"
                 inputVariable="ImportSalesOrderCPInvokeInputVariable"
